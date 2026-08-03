@@ -1,0 +1,22 @@
+ROWS=6
+COLS=7
+
+board=[['.' for _ in range(COLS)] for _ in range(ROWS)]
+
+def print_board():
+    for row in board:
+        print(*row)
+
+def drop(col,piece):
+    for r in range(ROWS-1,-1,-1):
+        if board[r][col]=='.':
+            board[r][col]=piece
+            return True
+    return False
+
+for turn in range(10):
+    print_board()
+    col=int(input("Choose column (0-6): "))
+    drop(col,'X')
+
+print_board()
