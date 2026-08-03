@@ -1,0 +1,39 @@
+from queue import PriorityQueue
+
+goal = "123456780"
+
+def h(state):
+    return sum(state[i]!=goal[i] and state[i]!='0' for i in range(9))
+
+moves={
+0:[1,3],1:[0,2,4],2:[1,5],
+3:[0,4,6],4:[1,3,5,7],5:[2,4,8],
+6:[3,7],7:[4,6,8],8:[5,7]
+}
+
+start=input("Enter puzzle (0=blank): ")
+
+pq=PriorityQueue()
+pq.put((h(start),0,start))
+
+visited=set()
+
+while not pq.empty():
+    f,g,state=pq.get()
+
+    if state==goal:
+        print("Solved in",g,"moves")
+        break
+
+    if state in visited:
+        continue
+
+    visited.add(state)
+
+    z=state.index('0')
+
+    for m in moves[z]:
+        s=list(state)
+        s[z],s[m]=s[m],s[z]
+        ns=''.join(s)
+        pq.put((g+1+h(ns),g+1,ns))
